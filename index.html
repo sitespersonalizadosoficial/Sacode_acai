@@ -211,13 +211,13 @@
         <span>✨ Todos os Itens</span>
       </button>
       <button onclick="filterCategory('monte')" id="tab-monte" class="tab-btn bg-acai-800 text-lilac-300 hover:bg-acai-700 border border-lilac-500/20 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl whitespace-nowrap transition flex items-center gap-2">
-        <span>🥣 Monte o Seu Açaí</span>
+        <span> Monte o Seu Açaí</span>
       </button>
       <button onclick="filterCategory('garrafa')" id="tab-garrafa" class="tab-btn bg-acai-800 text-lilac-300 hover:bg-acai-700 border border-lilac-500/20 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl whitespace-nowrap transition flex items-center gap-2">
-        <span>🍾 Garrafinhas</span>
+        <span> Garrafinhas</span>
       </button>
       <button onclick="filterCategory('especiais')" id="tab-especiais" class="tab-btn bg-acai-800 text-lilac-300 hover:bg-acai-700 border border-lilac-500/20 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl whitespace-nowrap transition flex items-center gap-2">
-        <span>🍫 Barcas & Potes</span>
+        <span> Barcas & Potes</span>
       </button>
     </div>
   </nav>
@@ -229,7 +229,7 @@
     <section id="section-monte" class="menu-section">
       <div class="flex items-center justify-between mb-4 border-b border-lilac-500/20 pb-3">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-lilac-500/20 text-lilac-400 flex items-center justify-center font-bold">🥣</div>
+          <div class="w-8 h-8 rounded-xl bg-lilac-500/20 text-lilac-400 flex items-center justify-center font-bold"></div>
           <div>
             <h3 class="font-black text-xl text-white">Monte o Seu Açaí</h3>
             <p class="text-xs text-lilac-300">Escolha o tamanho e receba seus complementos grátis!</p>
@@ -246,7 +246,7 @@
     <section id="section-garrafa" class="menu-section">
       <div class="flex items-center justify-between mb-4 border-b border-lilac-500/20 pb-3">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-acaiYellow-400/20 text-acaiYellow-400 flex items-center justify-center font-bold">🍾</div>
+          <div class="w-8 h-8 rounded-xl bg-acaiYellow-400/20 text-acaiYellow-400 flex items-center justify-center font-bold"></div>
           <div>
             <h3 class="font-black text-xl text-white">Açaí na Garrafinha</h3>
             <p class="text-xs text-lilac-300">Garrafinha cremosa recheada com Nutella, Ninho, Ovomaltine e mais!</p>
@@ -264,7 +264,7 @@
     <section id="section-especiais" class="menu-section">
       <div class="flex items-center justify-between mb-4 border-b border-lilac-500/20 pb-3">
         <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold">🍫</div>
+          <div class="w-8 h-8 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold"></div>
           <div>
             <h3 class="font-black text-xl text-white">Especiais: Barcas & Potes</h3>
             <p class="text-xs text-lilac-300">Para dividir ou se deliciar com super recheios!</p>
@@ -285,7 +285,7 @@
       
       <!-- Modal Header Banner Image -->
       <div class="relative h-48 bg-acai-950 flex items-center justify-center overflow-hidden border-b border-lilac-500/20">
-        <img id="garrafinhaModalImg" src="garrafinha330.jpeg" alt="Garrafinha" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=800&q=80'"/>
+        <img id="garrafinhaModalImg" src="garrafinha330.jpeg" alt="Garrafinha" class="w-full h-full object-cover"/>
         <div class="absolute inset-0 bg-gradient-to-t from-acai-950 via-acai-950/40 to-transparent"></div>
         
         <!-- Close Button -->
@@ -295,9 +295,7 @@
 
         <!-- Floating Store Badge (iFood Style) -->
         <div class="absolute bottom-3 left-3 bg-white text-acai-950 px-3 py-1.5 rounded-2xl shadow-xl flex items-center gap-2.5 border border-purple-200 z-10">
-          <div class="w-6 h-6 rounded-full bg-acai-900 text-acaiYellow-400 flex items-center justify-center text-xs font-bold">
-            🍧
-          </div>
+          
           <div>
             <div class="font-extrabold text-xs leading-none">Sacode Açaí</div>
             <div class="text-[10px] text-emerald-600 font-bold leading-tight flex items-center gap-1 mt-0.5">
@@ -367,7 +365,7 @@
       
       <!-- Top Image Header -->
       <div class="relative h-44 bg-acai-950 flex items-center justify-center overflow-hidden border-b border-lilac-500/20">
-        <img id="monteModalImg" src="acai330ml.jpeg" alt="Monte o Seu Açaí" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=800&q=80'"/>
+        <img id="monteModalImg" src="acai330ml.jpeg" alt="Monte o Seu Açaí" class="w-full h-full object-cover"/>
         <div class="absolute inset-0 bg-gradient-to-t from-acai-950 via-acai-950/40 to-transparent"></div>
         <button onclick="closeMonteModal()" class="absolute top-3 left-3 w-9 h-9 rounded-full bg-acai-950/80 text-white hover:bg-acai-950 flex items-center justify-center border border-lilac-500/30 transition shadow-lg z-20">
           <i class="fa-solid fa-chevron-down text-sm"></i>
@@ -543,7 +541,7 @@
         badge: 'Popular',
         desc: 'Base de açaí cremoso com 3 adicionais grátis inclusos.',
         image: 'acai330ml.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=600&q=80'
+        fallback: 'acai330ml.jpeg'
       },
       {
         id: 'copo-440',
@@ -554,7 +552,7 @@
         badge: 'Sucesso',
         desc: 'Tamanho perfeito para matar sua fome de açaí. 3 grátis.',
         image: 'acai440ml.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80'
+        fallback: 'acai440ml.jpeg'
       },
       {
         id: 'copo-550',
@@ -565,7 +563,7 @@
         badge: 'Mais Pedido',
         desc: 'Quantidade generosa de açaí puro + 3 acompanhamentos.',
         image: 'acai550ml.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1577805947697-89e18249d767?auto=format&fit=crop&w=600&q=80'
+        fallback: 'acai550ml.jpeg'
       },
       {
         id: 'copo-770',
@@ -576,7 +574,7 @@
         badge: 'Super Copo',
         desc: 'Super copo reforçado com 4 adicionais grátis inclusos.',
         image: 'acai770.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1626078436896-1c8812c32cf4?auto=format&fit=crop&w=600&q=80'
+        fallback: 'acai770.jpeg'
       },
       {
         id: 'copo-1000',
@@ -587,7 +585,7 @@
         badge: 'Família',
         desc: '1 Litro completo de açaí premium com 5 adicionais grátis!',
         image: 'acai1.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1553530666-ba11a7da3888?auto=format&fit=crop&w=600&q=80'
+        fallback: 'acai1.jpeg'
       },
 
       // GARRAFINHAS (iFOOD STYLE)
@@ -597,10 +595,10 @@
         category: 'garrafa',
         price: 22.00,
         isGarrafa: true,
-        badge: 'iFood Top 1',
+        badge: ' Top 1',
         desc: 'Escolha o sabor de sua preferência! Preparada na garrafinha.',
         image: 'garrafinha330.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=600&q=80'
+        fallback: 'garrafinha330.jpeg'
       },
       {
         id: 'garrafa-550',
@@ -611,7 +609,7 @@
         badge: 'Refrescante',
         desc: 'Tamanho maior recheado de sabor e cremosidade!',
         image: 'garrafinha550.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=600&q=80'
+        fallback: 'garrafinha550.jpeg'
       },
 
       // BARCAS & POTES
@@ -623,7 +621,7 @@
         badge: 'Sensacional',
         desc: 'Barca completa: 5 adicionais grátis e 1 creme incluso no capricho.',
         image: 'barca.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80'
+        fallback: 'barca.jpeg'
       },
       {
         id: 'pote-nutella',
@@ -633,7 +631,7 @@
         badge: 'Novidade',
         desc: 'Delicioso açaí servido diretamente no pote recheado de Nutella.',
         image: 'potenutella.jpeg',
-        fallback: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80'
+        fallback: 'potenutella.jpeg'
       }
     ];
 
