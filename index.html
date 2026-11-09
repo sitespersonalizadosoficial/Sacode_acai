@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sacode Açaí - Cardápio & Delivery iFood Style</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            acai: {
+              950: '#12031a',
+              900: '#1b0524',
+              800: '#270a35',
+              700: '#320e44',
+              600: '#481361',
+            },
+            lilac: {
+              300: '#e9d5ff',
+              400: '#c084fc',
+              500: '#a855f7',
+              600: '#9333ea',
+              700: '#7e22ce',
+            },
+            acaiYellow: {
+              300: '#fde047',
+              400: '#facc15',
+              500: '#eab308',
+            }
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+  /* ==========================================================
+     1. CONFIGURAÇÕES GERAIS E RESET
+     ========================================================== */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    background-color: #12031a;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ==========================================================
+     2. BARRA DE ROLAGEM (SCROLLBAR)
+     ========================================================== */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #12031a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #a855f7;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #9333ea;
+  }
+
+  /* Ocultar scrollbar nas abas de categorias */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* ==========================================================
+     3. CORREÇÃO DA LOGO NO TOPO (SEM CORTE)
+     ========================================================== */
+  .logo-container {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    background-color: #12031a;
+    border: 2px solid #a855f7;
+    border-radius: 16px;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+
+  .logo-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important; /* Mostra o mascote inteiro sem cortar */
+    object-position: center;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+  }
+
+  /* ==========================================================
+     4. CORREÇÃO DAS IMAGENS DOS PRODUTOS (SEM ZOOM)
+     ========================================================== */
+  .produto-card {
+    background-color: #2d0c40;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 1rem;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .produto-card:hover {
+    border-color: rgba(168, 85, 247, 0.5);
+  }
+
+  .produto-imagem-wrapper {
+    width: 100%;
+    height: 190px;
+    background-color: #1b0524; /* Fundo roxo escuro para preencher bordas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .produto-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important; /* Mostra a foto 100% inteira sem zoom */
+    object-position: center;
+    transition: transform 0.3s ease;
+  }
+
+  .produto-card:hover .produto-imagem {
+    transform: scale(1.03); /* Leve efeito ao passar o mouse sem cortar */
+  }
+
+  /* ==========================================================
+     5. MODAIS E ANIMAÇÕES (ESTILO IFOOD)
+     ========================================================== */
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.25s ease-out forwards;
+  }
+
+  /* Ajuste para imagens dentro dos modais de personalização */
+  .modal-header-img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain !important;
+    background-color: #1b0524;
+    padding: 12px;
+  }
+</style>
+
+
+</head>
+<body class="min-h-screen pb-24 selection:bg-lilac-500 selection:text-white">
+
+  <!-- TOP HEADER (iFood Style with Cart on Top Right) -->
+  <header class="bg-acai-900 border-b border-lilac-500/20 sticky top-0 z-40 shadow-xl backdrop-blur-md bg-opacity-95">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      
+      <!-- Left: Logo & Store Info -->
+     <div class="flex items-center gap-3">
+  <!-- Brand Mascot Avatar / Logo Image -->
+ <div class="relative w-14 h-14 rounded-2xl bg-gradient-to-tr from-lilac-600 via-acai-800 to-acaiYellow-400 p-0.5 shadow-lg flex-shrink-0">
+  <div class="w-full h-full bg-acai-950 rounded-[14px] overflow-hidden flex items-center justify-center p-1">
+    <img 
+      src="logo.jpeg" 
+      alt="Sacode Açaí Logo" 
+      class="w-full h-full object-contain object-center"
+    />
+  </div>
+</div>
+
+  <div>
+    <div class="flex items-center gap-2">
+      <h1 class="font-black text-lg text-white leading-tight">Sacode Açaí</h1>
+      <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Aberto
+      </span>
+    </div>
+    <p class="text-xs text-lilac-300 flex items-center gap-1.5 mt-0.5">
+      <i class="fa-solid fa-location-dot text-acaiYellow-400 text-[10px]"></i>
+      <span>Delivery & Retirada</span>
+      <span class="text-gray-500">•</span>
+      <i class="fa-solid fa-phone text-acaiYellow-400 text-[10px]"></i>
+      <span>(17) 99205-1129</span>
+    </p>
+  </div>
+</div>
+
+      <!-- RIGHT CORNER: iFood Style SHOPPING CART BUTTON -->
+      <button onclick="toggleCartDrawer()" id="headerCartBtn" class="bg-gradient-to-r from-lilac-600 to-acai-700 hover:from-lilac-500 hover:to-acai-600 text-white p-2.5 sm:px-4 sm:py-2.5 rounded-2xl border border-lilac-400/30 shadow-lg flex items-center gap-3 transition active:scale-95 group">
+        <div class="relative">
+          <i class="fa-solid fa-bag-shopping text-lg text-acaiYellow-400 group-hover:scale-110 transition-transform"></i>
+          <span id="cartHeaderBadge" class="absolute -top-2 -right-2 bg-red-500 text-white font-extrabold text-[11px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-acai-900 shadow">
+            0
+          </span>
+        </div>
+        <div class="hidden sm:flex flex-col text-left">
+          <span class="text-[10px] text-lilac-300 font-semibold uppercase tracking-wider leading-none">Meu Carrinho</span>
+          <span id="cartHeaderTotal" class="text-sm font-black text-white leading-tight mt-0.5">R$ 0,00</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- STORE HERO BANNER -->
+  <section class="max-w-5xl mx-auto px-4 mt-4">
+    <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-acai-900 via-acai-800 to-purple-950 border border-lilac-500/30 p-5 sm:p-6 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-5">
+      <div class="z-10 text-center md:text-left">
+        <div class="inline-flex items-center gap-2 bg-acaiYellow-400 text-acai-950 font-black text-xs uppercase px-3 py-1 rounded-full tracking-wider shadow-md mb-2">
+          <i class="fa-solid fa-fire text-red-600"></i> O Açaí Mais Pedido de Bebedouro.
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight mt-1">
+          Peça o Seu Açaí Cremoso com Entregas Rápidas!
+        </h2>
+        <p class="text-xs sm:text-sm text-lilac-300 mt-2 max-w-xl">
+          Monte do seu jeito com complementos grátis ou experimente nossas famosas Garrafinhas de Açaí recheadas.
+        </p>
+        <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-4">
+          <a href="https://instagram.com/sacode_acai" target="_blank" class="bg-acai-950/80 hover:bg-acai-950 text-lilac-300 hover:text-white border border-lilac-500/30 text-xs font-bold px-3.5 py-2 rounded-xl transition flex items-center gap-2">
+            <i class="fa-brands fa-instagram text-pink-500 text-sm"></i> @sacode_acai
+          </a>
+          <span class="text-xs text-gray-400 flex items-center gap-1">
+            <i class="fa-solid fa-clock text-acaiYellow-400"></i> Seg à Dom: 14h às 23h
+          </span>
+        </div>
+      </div>
+
+      <!-- Decorative Graphic -->
+      <div class="relative flex-shrink-0 z-10">
+        <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-tr from-lilac-600 to-acaiYellow-400 p-1 shadow-2xl animate-pulse">
+          <img src="acaicapa.jpeg" alt="Sacode Açaí Copo" class="w-full h-full object-cover rounded-full border-2 border-acai-950" onerror="this.src='https://placehold.co/400x400/270a35/facc15?text=Sacode+Acai'"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY CATEGORY TABS -->
+  <nav class="max-w-5xl mx-auto px-4 mt-6 sticky top-[69px] z-30 bg-acai-950/90 backdrop-blur-md py-3">
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+      <button onclick="filterCategory('todos')" id="tab-todos" class="tab-btn bg-lilac-600 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl whitespace-nowrap shadow-md transition flex items-center gap-2">
+        <span>✨ Todos os Itens</span>
+      </button>
+      <button onclick="filterCategory('monte')" id="tab-monte" class="tab-btn bg-acai-800 text-lilac-300 hover:bg-acai-700 border border-lilac-500/20 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl whitespace-nowrap transition flex items-center gap-2">
+        <span>🥣 Monte o Seu Açaí</span>
+      </button>
+      <button onclick="filterCategory('garrafa')" id="tab-garrafa" class="tab-btn bg-acai-800 text-lilac-300 hover:bg-acai-700 border border-lilac-500/20 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl whitespace-nowrap transition flex items-center gap-2">
+        <span>🍾 Garrafinhas</span>
+      </button>
+      <button onclick="filterCategory('especiais')" id="tab-especiais" class="tab-btn bg-acai-800 text-lilac-300 hover:bg-acai-700 border border-lilac-500/20 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl whitespace-nowrap transition flex items-center gap-2">
+        <span>🍫 Barcas & Potes</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN MENU PRODUCTS GRID -->
+  <main class="max-w-5xl mx-auto px-4 mt-4 space-y-10">
+
+    <!-- SEÇÃO 1: MONTE O SEU AÇAÍ -->
+    <section id="section-monte" class="menu-section">
+      <div class="flex items-center justify-between mb-4 border-b border-lilac-500/20 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-lilac-500/20 text-lilac-400 flex items-center justify-center font-bold">🥣</div>
+          <div>
+            <h3 class="font-black text-xl text-white">Monte o Seu Açaí</h3>
+            <p class="text-xs text-lilac-300">Escolha o tamanho e receba seus complementos grátis!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="grid-monte">
+        <!-- JS Rendered -->
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2: GARRAFINHAS (ESTILO IFOOD) -->
+    <section id="section-garrafa" class="menu-section">
+      <div class="flex items-center justify-between mb-4 border-b border-lilac-500/20 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-acaiYellow-400/20 text-acaiYellow-400 flex items-center justify-center font-bold">🍾</div>
+          <div>
+            <h3 class="font-black text-xl text-white">Açaí na Garrafinha</h3>
+            <p class="text-xs text-lilac-300">Garrafinha cremosa recheada com Nutella, Ninho, Ovomaltine e mais!</p>
+          </div>
+        </div>
+        <span class="bg-black text-white text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider border border-lilac-500/30">
+          iFOOD EXCLUSIVE
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4" id="grid-garrafa">
+        <!-- JS Rendered -->
+      </div>
+    </section>
+
+    <!-- SEÇÃO 3: BARCAS & POTES -->
+    <section id="section-especiais" class="menu-section">
+      <div class="flex items-center justify-between mb-4 border-b border-lilac-500/20 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold">🍫</div>
+          <div>
+            <h3 class="font-black text-xl text-white">Especiais: Barcas & Potes</h3>
+            <p class="text-xs text-lilac-300">Para dividir ou se deliciar com super recheios!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4" id="grid-especiais">
+        <!-- JS Rendered -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL 1: IFOOD GARRAFINHA CUSTOMIZER -->
+  <div id="garrafinhaModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+    <div class="bg-acai-900 border border-lilac-500/30 w-full max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl transform transition-transform duration-300 scale-95">
+      
+      <!-- Modal Header Banner Image -->
+      <div class="relative h-48 bg-acai-950 flex items-center justify-center overflow-hidden border-b border-lilac-500/20">
+        <img id="garrafinhaModalImg" src="https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=800&q=80" alt="Garrafinha" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/270a35/facc15?text=Garrafinha+Acai'"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-acai-950 via-acai-950/40 to-transparent"></div>
+        
+        <!-- Close Button -->
+        <button onclick="closeGarrafinhaModal()" class="absolute top-3 left-3 w-9 h-9 rounded-full bg-acai-950/80 text-white hover:bg-acai-950 flex items-center justify-center border border-lilac-500/30 transition shadow-lg z-20">
+          <i class="fa-solid fa-chevron-down text-sm"></i>
+        </button>
+
+        <!-- Floating Store Badge (iFood Style) -->
+        <div class="absolute bottom-3 left-3 bg-white text-acai-950 px-3 py-1.5 rounded-2xl shadow-xl flex items-center gap-2.5 border border-purple-200 z-10">
+          <div class="w-6 h-6 rounded-full bg-acai-900 text-acaiYellow-400 flex items-center justify-center text-xs font-bold">
+            🍧
+          </div>
+          <div>
+            <div class="font-extrabold text-xs leading-none">Sacode Açaí</div>
+            <div class="text-[10px] text-emerald-600 font-bold leading-tight flex items-center gap-1 mt-0.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Aberto agora
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Content Body -->
+      <div class="p-5 overflow-y-auto flex-1 space-y-4">
+        <div>
+          <h3 id="garrafinhaModalTitle" class="font-black text-2xl text-white">Açaí na Garrafinha 330ml</h3>
+          <p class="text-xs text-lilac-300 mt-1">Escolha o sabor de sua preferência!</p>
+          <div id="garrafinhaModalBasePrice" class="text-xl font-black text-acaiYellow-400 mt-2">R$ 22,00</div>
+        </div>
+
+        <!-- iFood Gray Section Header Band -->
+        <div class="bg-acai-800/90 px-4 py-3 rounded-2xl border border-lilac-500/20 flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-white text-sm">Garrafinhas sabores</h4>
+            <p class="text-[11px] text-lilac-300">Escolha 1 opção</p>
+          </div>
+          <span class="bg-black text-white text-[10px] font-black px-2.5 py-1 rounded-md uppercase tracking-wider border border-lilac-500/30">
+            OBRIGATÓRIO
+          </span>
+        </div>
+
+        <!-- Flavor Radio Options List with Thumbnails -->
+        <div class="space-y-2.5" id="garrafinhaFlavorRadios">
+          <!-- Dynamically Rendered -->
+        </div>
+
+        <!-- Notes -->
+        <div class="pt-2">
+          <label class="block text-xs font-bold text-gray-300 mb-1" for="garrafinhaNotes">Observações do item:</label>
+          <input type="text" id="garrafinhaNotes" placeholder="Ex: Pouco açúcar, capricha na calda..." class="w-full bg-acai-950 border border-lilac-500/30 rounded-xl p-3 text-xs text-white placeholder-purple-400/50 focus:outline-none focus:border-lilac-500"/>
+        </div>
+      </div>
+
+      <!-- Modal Fixed iFood Footer Bar -->
+      <div class="p-4 bg-acai-950 border-t border-lilac-500/20 flex items-center justify-between gap-3 shrink-0">
+        <!-- Quantity counter -->
+        <div class="flex items-center bg-acai-900 border border-lilac-500/30 rounded-2xl p-1 shadow-inner">
+          <button onclick="changeGarrafinhaQty(-1)" class="w-9 h-9 rounded-xl flex items-center justify-center text-lilac-400 hover:text-white hover:bg-acai-800 font-bold text-lg transition">
+            <i class="fa-solid fa-minus text-xs"></i>
+          </button>
+          <span id="garrafinhaQtyDisplay" class="w-8 text-center font-black text-white text-sm">1</span>
+          <button onclick="changeGarrafinhaQty(1)" class="w-9 h-9 rounded-xl flex items-center justify-center text-lilac-400 hover:text-white hover:bg-acai-800 font-bold text-lg transition">
+            <i class="fa-solid fa-plus text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Add Button -->
+        <button onclick="confirmAddGarrafinha()" class="flex-1 bg-gradient-to-r from-lilac-600 via-lilac-500 to-purple-600 hover:from-lilac-500 hover:to-lilac-400 text-white font-black py-3.5 px-5 rounded-2xl shadow-lg flex items-center justify-between text-sm transition transform active:scale-98">
+          <span>Adicionar</span>
+          <span id="garrafinhaModalTotalPrice" class="font-black text-acaiYellow-400 text-base">R$ 22,00</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL 2: MONTE O SEU AÇAÍ CUSTOMIZER -->
+  <div id="monteModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+    <div class="bg-acai-900 border border-lilac-500/30 w-full max-w-lg max-h-[90vh] rounded-t-3xl sm:rounded-3xl flex flex-col overflow-hidden shadow-2xl transform transition-transform duration-300 scale-95">
+      
+      <!-- Top Image Header -->
+      <div class="relative h-44 bg-acai-950 flex items-center justify-center overflow-hidden border-b border-lilac-500/20">
+        <img id="monteModalImg" src="https://images.unsplash.com/photo-1590301157890-4810ed352733?auto=format&fit=crop&w=800&q=80" alt="Monte o Seu Açaí" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/270a35/facc15?text=Monte+o+Seu+Acai'"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-acai-950 via-acai-950/40 to-transparent"></div>
+        <button onclick="closeMonteModal()" class="absolute top-3 left-3 w-9 h-9 rounded-full bg-acai-950/80 text-white hover:bg-acai-950 flex items-center justify-center border border-lilac-500/30 transition shadow-lg z-20">
+          <i class="fa-solid fa-chevron-down text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Content -->
+      <div class="p-5 overflow-y-auto flex-1 space-y-5">
+        <div>
+          <h3 id="monteModalTitle" class="font-black text-2xl text-white">Monte seu Açaí 330ml</h3>
+          <p id="monteModalSubtitle" class="text-xs text-lilac-300 mt-1">Escolha até 3 complementos grátis inclusos no valor!</p>
+          <div id="monteModalBasePrice" class="text-xl font-black text-acaiYellow-400 mt-2">R$ 15,00</div>
+        </div>
+
+        <!-- 1. Free Complements Section -->
+        <div>
+          <div class="bg-acai-800/90 px-4 py-3 rounded-2xl border border-lilac-500/20 flex items-center justify-between mb-3">
+            <div>
+              <h4 class="font-bold text-white text-sm">Complementos Grátis</h4>
+              <p class="text-[11px] text-lilac-300">Escolha os de sua preferência</p>
+            </div>
+            <span id="freeCounterBadge" class="bg-lilac-500/20 text-lilac-300 border border-lilac-500/30 text-xs font-bold px-2.5 py-1 rounded-full">
+              0 / 3 selecionados
+            </span>
+          </div>
+          <div class="grid grid-cols-2 gap-2" id="freeComplementsList">
+            <!-- Dynamic JS -->
+          </div>
+        </div>
+
+        <!-- 2. Premium Complements Section -->
+        <div>
+          <div class="bg-acai-800/90 px-4 py-3 rounded-2xl border border-lilac-500/20 flex items-center justify-between mb-3">
+            <div>
+              <h4 class="font-bold text-white text-sm">Complementos Premium</h4>
+              <p class="text-[11px] text-lilac-300">Adicione cremes e chocolates (+ valor)</p>
+            </div>
+            <span class="text-[10px] font-bold text-acaiYellow-400 bg-acaiYellow-400/10 px-2 py-0.5 rounded">OPCIONAL</span>
+          </div>
+          <div class="grid grid-cols-1 gap-2" id="premiumComplementsList">
+            <!-- Dynamic JS -->
+          </div>
+        </div>
+
+        <!-- 3. Fruits Section -->
+        <div>
+          <div class="bg-acai-800/90 px-4 py-3 rounded-2xl border border-lilac-500/20 flex items-center justify-between mb-3">
+            <div>
+              <h4 class="font-bold text-white text-sm">Frutas Frescas</h4>
+              <p class="text-[11px] text-lilac-300">Morango fresco, uvas e banana</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2" id="fruitsList">
+            <!-- Dynamic JS -->
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div>
+          <label class="block text-xs font-bold text-gray-300 mb-1" for="monteNotes">Observações:</label>
+          <input type="text" id="monteNotes" placeholder="Ex: Sem granola, capricha na calda de morango..." class="w-full bg-acai-950 border border-lilac-500/30 rounded-xl p-3 text-xs text-white placeholder-purple-400/50 focus:outline-none focus:border-lilac-500"/>
+        </div>
+      </div>
+
+      <!-- Footer Bar -->
+      <div class="p-4 bg-acai-950 border-t border-lilac-500/20 flex items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center bg-acai-900 border border-lilac-500/30 rounded-2xl p-1 shadow-inner">
+          <button onclick="changeMonteQty(-1)" class="w-9 h-9 rounded-xl flex items-center justify-center text-lilac-400 hover:text-white font-bold text-lg transition">
+            <i class="fa-solid fa-minus text-xs"></i>
+          </button>
+          <span id="monteQtyDisplay" class="w-8 text-center font-black text-white text-sm">1</span>
+          <button onclick="changeMonteQty(1)" class="w-9 h-9 rounded-xl flex items-center justify-center text-lilac-400 hover:text-white font-bold text-lg transition">
+            <i class="fa-solid fa-plus text-xs"></i>
+          </button>
+        </div>
+
+        <button onclick="confirmAddMonteAcai()" class="flex-1 bg-gradient-to-r from-lilac-600 via-lilac-500 to-purple-600 hover:from-lilac-500 hover:to-lilac-400 text-white font-black py-3.5 px-5 rounded-2xl shadow-lg flex items-center justify-between text-sm transition transform active:scale-98">
+          <span>Adicionar</span>
+          <span id="monteModalTotalPrice" class="font-black text-acaiYellow-400 text-base">R$ 15,00</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SHOPPING CART SLIDE-OVER DRAWER -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0 flex justify-end">
+    <div id="cartDrawerContent" class="bg-acai-900 w-full max-w-md h-full flex flex-col border-l border-lilac-500/30 transform transition-transform duration-300 translate-x-full">
+      
+      <!-- Drawer Header -->
+      <div class="p-4 bg-acai-950 border-b border-lilac-500/20 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-lilac-500/20 text-acaiYellow-400 flex items-center justify-center">
+            <i class="fa-solid fa-bag-shopping text-lg"></i>
+          </div>
+          <div>
+            <h3 class="font-black text-lg text-white">Seu Carrinho</h3>
+            <p class="text-xs text-lilac-300" id="drawerItemCount">0 itens adicionados</p>
+          </div>
+        </div>
+        <button onclick="toggleCartDrawer()" class="w-9 h-9 rounded-full bg-acai-800 text-gray-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Drawer Items List -->
+      <div id="cartDrawerList" class="flex-1 overflow-y-auto p-4 space-y-3">
+        <!-- JS Rendered Items -->
+      </div>
+
+      <!-- Drawer Checkout Form & Total -->
+      <div class="p-4 bg-acai-950 border-t border-lilac-500/20 space-y-3 shrink-0">
+        <div class="bg-acai-900 p-3 rounded-2xl border border-lilac-500/20 space-y-1">
+          <div class="flex justify-between text-xs text-lilac-300">
+            <span>Subtotal</span>
+            <span id="drawerSubtotal">R$ 0,00</span>
+          </div>
+          <div class="flex justify-between text-xs text-lilac-300">
+            <span>Taxa de Entrega</span>
+            <span class="text-emerald-400 font-bold">A calcular</span>
+          </div>
+          <div class="flex justify-between text-base font-black text-white pt-1 border-t border-lilac-500/10">
+            <span>Valor Total:</span>
+            <span id="drawerTotal" class="text-acaiYellow-400">R$ 0,00</span>
+          </div>
+        </div>
+
+        <!-- Customer Inputs -->
+        <div class="space-y-2">
+          <div>
+            <label class="block text-xs font-bold text-gray-300 mb-1" for="custName">Nome Completo *</label>
+            <input type="text" id="custName" placeholder="Digite seu nome..." class="w-full bg-acai-900 border border-lilac-500/30 rounded-xl p-2.5 text-xs text-white placeholder-purple-400/40 focus:outline-none focus:border-lilac-500"/>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-300 mb-1" for="custAddress">Endereço de Entrega *</label>
+            <input type="text" id="custAddress" placeholder="Rua, número, bairro e complemento" class="w-full bg-acai-900 border border-lilac-500/30 rounded-xl p-2.5 text-xs text-white placeholder-purple-400/40 focus:outline-none focus:border-lilac-500"/>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-gray-300 mb-1" for="custPayment">Forma de Pagamento</label>
+            <select id="custPayment" class="w-full bg-acai-900 border border-lilac-500/30 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-lilac-500">
+              <option value="Pix">Pix (Chave enviada no WhatsApp)</option>
+              <option value="Cartão de Débito/Crédito">Cartão de Débito/Crédito na Entrega</option>
+              <option value="Dinheiro">Dinheiro (Informar troco se precisar)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- WhatsApp Checkout Button -->
+        <button onclick="sendWhatsAppOrder()" class="w-full bg-gradient-to-r from-emerald-600 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white font-black py-3.5 px-4 rounded-2xl shadow-xl flex items-center justify-center gap-2 text-sm transition transform active:scale-98">
+          <i class="fa-brands fa-whatsapp text-lg"></i>
+          <span>Enviar Pedido no WhatsApp</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APP ENGINE -->
+  <script>
+    // ----------------------------------------------------
+    // PRODUCTS DATA (WITH HIGH-QUALITY UNSPLASH PHOTOS FOR EVERY ITEM)
+    // ----------------------------------------------------
+    const productsData = [
+      // MONTE O SEU AÇAÍ
+      {
+        id: 'copo-330',
+        name: 'Copos 330 ML',
+        category: 'monte',
+        price: 15.00,
+        freeLimit: 3,
+        badge: 'Popular',
+        desc: 'Base de açaí cremoso com 3 adicionais grátis inclusos.',
+        image: 'acai330ml.jpeg'
+      },
+      {
+        id: 'copo-440',
+        name: 'Copos 440 ML',
+        category: 'monte',
+        price: 18.00,
+        freeLimit: 3,
+        badge: 'Sucesso',
+        desc: 'Tamanho perfeito para matar sua fome de açaí. 3 grátis.',
+        image: 'acai440ml.jpeg'
+      },
+      {
+        id: 'copo-550',
+        name: 'Copos 550 ML',
+        category: 'monte',
+        price: 21.00,
+        freeLimit: 3,
+        badge: 'Mais Pedido',
+        desc: 'Quantidade generosa de açaí puro + 3 acompanhamentos.',
+        image: 'acai550ml.jpeg'
+      },
+      {
+        id: 'copo-770',
+        name: 'Copos 770 ML',
+        category: 'monte',
+        price: 27.00,
+        freeLimit: 4,
+        badge: 'Super Copo',
+        desc: 'Super copo reforçado com 4 adicionais grátis inclusos.',
+        image: 'acai770.jpeg'
+      },
+      {
+        id: 'copo-1000',
+        name: 'Açaí 1 LITRO',
+        category: 'monte',
+        price: 36.00,
+        freeLimit: 5,
+        badge: 'Família',
+        desc: '1 Litro completo de açaí premium com 5 adicionais grátis!',
+        image: 'acai1.jpeg'
+      },
+
+      // GARRAFINHAS (iFOOD STYLE)
+      {
+        id: 'garrafa-300',
+        name: 'Açaí na Garrafinha 330ml',
+        category: 'garrafa',
+        price: 22.00,
+        isGarrafa: true,
+        badge: 'iFood Top 1',
+        desc: 'Escolha o sabor de sua preferência! Preparada na garrafinha.',
+        image: 'garrafinha330.jpeg'
+      },
+      {
+        id: 'garrafa-500',
+        name: 'Açaí na Garrafinha 550ml',
+        category: 'garrafa',
+        price: 32.00,
+        isGarrafa: true,
+        badge: 'Refrescante',
+        desc: 'Tamanho maior recheado de sabor e cremosidade!',
+        image: 'garrafinha550.jpeg'
+      },
+
+      // BARCAS & POTES
+      {
+        id: 'barca-especial',
+        name: 'A Melhor Barca de Açaí',
+        category: 'especiais',
+        price: 49.00,
+        badge: 'Sensacional',
+        desc: 'Barca completa: 5 adicionais grátis e 1 creme incluso no capricho.',
+        image: 'barca.jpeg'
+      },
+      {
+        id: 'pote-nutella',
+        name: 'Açaí no Pote de Nutella',
+        category: 'especiais',
+        price: 38.00,
+        badge: 'Novidade',
+        desc: 'Delicioso açaí servido diretamente no pote recheado de Nutella.',
+        image: 'potenutella.jpeg'
+      }
+    ];
+
+    // GARRAFINHA FLAVORS WITH THUMBNAILS
+    const garrafaFlavors = [
+      { name: 'Morango com Nutella'},
+      { name: 'Ninho com Nutella'},
+      { name: 'Ovomaltine com Nutella'},
+      { name: 'Paçoca'}
+    ];
+
+    // COMPLEMENTS DATA
+    const freeComplementsList = [
+      'Oreo', 'Confete', 'Bis', 'KitKat', 'Bombom sonho de valsa', 'Bombom ouro branco', 
+      'Paçoca', 'Ovomaltine', 'Leite em pó', 'Chocoball', 'Leite condensado', 'Granola', 
+      'Mel', 'Amendoim (sem sal)', 'Cobertura morango', 'Cobertura chocolate', 'Cobertura caramelo', 'Cobertura fini beijos'
+    ];
+
+    const premiumComplementsList = [
+      { name: 'Nutella', price: 5.00 },
+      { name: 'Creme de avelã', price: 4.00 },
+      { name: 'Creme de ninho', price: 5.00 },
+      { name: 'Creme de kinder', price: 5.00 },
+      { name: 'Nutella b-ready', price: 4.00 }
+    ];
+
+    const fruitsList = [
+      { name: 'Morango Fresco', price: 3.00 },
+      { name: 'Uva', price: 0.00 },
+      { name: 'Banana', price: 0.00 }
+    ];
+
+    // STATE
+    let cart = [];
+    let currentGarrafinhaState = null;
+    let currentMonteState = null;
+
+    // INITIALIZATION
+    window.onload = function() {
+      renderProducts('todos');
+      updateCartUI();
+    };
+
+    // FILTER CATEGORIES
+    function filterCategory(cat) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-lilac-600', 'text-white');
+        btn.classList.add('bg-acai-800', 'text-lilac-300');
+      });
+
+      const activeBtn = document.getElementById(`tab-${cat}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-acai-800', 'text-lilac-300');
+        activeBtn.classList.add('bg-lilac-600', 'text-white');
+      }
+
+      renderProducts(cat);
+    }
+
+    // RENDER PRODUCT CARDS
+    function renderProducts(filter) {
+      const monteGrid = document.getElementById('grid-monte');
+      const garrafaGrid = document.getElementById('grid-garrafa');
+      const especiaisGrid = document.getElementById('grid-especiais');
+
+      const sectionMonte = document.getElementById('section-monte');
+      const sectionGarrafa = document.getElementById('section-garrafa');
+      const sectionEspeciais = document.getElementById('section-especiais');
+
+      monteGrid.innerHTML = '';
+      garrafaGrid.innerHTML = '';
+      especiaisGrid.innerHTML = '';
+
+      productsData.forEach(item => {
+        const cardHtml = createProductCardHtml(item);
+
+        if (item.category === 'monte') monteGrid.innerHTML += cardHtml;
+        if (item.category === 'garrafa') garrafaGrid.innerHTML += cardHtml;
+        if (item.category === 'especiais') especiaisGrid.innerHTML += cardHtml;
+      });
+
+      if (filter === 'todos') {
+        sectionMonte.classList.remove('hidden');
+        sectionGarrafa.classList.remove('hidden');
+        sectionEspeciais.classList.remove('hidden');
+      } else if (filter === 'monte') {
+        sectionMonte.classList.remove('hidden');
+        sectionGarrafa.classList.add('hidden');
+        sectionEspeciais.classList.add('hidden');
+      } else if (filter === 'garrafa') {
+        sectionMonte.classList.add('hidden');
+        sectionGarrafa.classList.remove('hidden');
+        sectionEspeciais.classList.add('hidden');
+      } else if (filter === 'especiais') {
+        sectionMonte.classList.add('hidden');
+        sectionGarrafa.classList.add('hidden');
+        sectionEspeciais.classList.remove('hidden');
+      }
+    }
+
+    function createProductCardHtml(item) {
+      const actionFn = item.isGarrafa ? `openGarrafinhaModal('${item.id}')` : (item.category === 'monte' ? `openMonteModal('${item.id}')` : `directAddToCart('${item.id}')`);
+      const btnText = item.isGarrafa ? 'Escolher Sabor' : (item.category === 'monte' ? 'Montar Copo' : 'Adicionar');
+
+      return `
+        <div class="bg-acai-900 border border-lilac-500/20 rounded-3xl overflow-hidden hover:border-lilac-500/50 transition duration-300 shadow-xl flex flex-col justify-between group">
+          <div>
+            <!-- Product Photo -->
+            <div class="relative h-44 w-full overflow-hidden bg-acai-950">
+              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='https://placehold.co/600x400/270a35/facc15?text=Sacode+Acai'"/>
+              <div class="absolute inset-0 bg-gradient-to-t from-acai-900 via-transparent to-transparent"></div>
+              <span class="absolute top-3 left-3 bg-acai-950/80 backdrop-blur-md text-acaiYellow-400 font-extrabold text-[10px] px-2.5 py-1 rounded-full border border-acaiYellow-400/30 shadow">
+                ✨ ${item.badge}
+              </span>
+            </div>
+
+            <!-- Content -->
+            <div class="p-4">
+              <h4 class="font-black text-lg text-white group-hover:text-lilac-300 transition">${item.name}</h4>
+              <p class="text-xs text-lilac-300 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
+            </div>
+          </div>
+
+          <!-- Footer Price & Button -->
+          <div class="p-4 pt-0 flex items-center justify-between gap-2 mt-2">
+            <div>
+              <span class="text-[10px] text-gray-400 font-semibold block">A partir de</span>
+              <span class="text-xl font-black text-acaiYellow-400">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+            </div>
+            <button onclick="${actionFn}" class="bg-gradient-to-r from-lilac-600 to-purple-600 hover:from-lilac-500 hover:to-purple-500 text-white font-extrabold text-xs px-4 py-2.5 rounded-2xl shadow-lg transition transform active:scale-95 flex items-center gap-1.5">
+              <span>${btnText}</span>
+              <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ----------------------------------------------------
+    // IFOOD GARRAFINHA MODAL LOGIC
+    // ----------------------------------------------------
+    function openGarrafinhaModal(id) {
+      const item = productsData.find(p => p.id === id);
+      if (!item) return;
+
+      currentGarrafinhaState = {
+        item: item,
+        selectedFlavor: garrafaFlavors[0].name,
+        qty: 1
+      };
+
+      document.getElementById('garrafinhaModalImg').src = item.image;
+      document.getElementById('garrafinhaModalTitle').innerText = item.name;
+      document.getElementById('garrafinhaModalBasePrice').innerText = `R$ ${item.price.toFixed(2).replace('.', ',')}`;
+      document.getElementById('garrafinhaQtyDisplay').innerText = '1';
+      document.getElementById('garrafinhaNotes').value = '';
+
+      // Render Flavors with iFood Radio Layout & Thumbnails
+      const radiosContainer = document.getElementById('garrafinhaFlavorRadios');
+      radiosContainer.innerHTML = garrafaFlavors.map((flavor, index) => `
+        <label class="cursor-pointer bg-acai-950 hover:bg-acai-800 border border-lilac-500/20 hover:border-lilac-500/50 p-3 rounded-2xl flex items-center justify-between transition group">
+          <div class="flex items-center gap-3">
+            <input type="radio" name="garrafaFlavorRadio" value="${flavor.name}" ${index === 0 ? 'checked' : ''} onchange="currentGarrafinhaState.selectedFlavor = this.value" class="w-4 h-4 accent-lilac-500 cursor-pointer">
+            <span class="text-xs sm:text-sm font-bold text-gray-100 group-hover:text-white flex items-center gap-2">
+              <span>${flavor.icon}</span>
+              <span>${flavor.name}</span>
+            </span>
+          </div>
+
+          <div class="w-10 h-10 rounded-xl overflow-hidden border border-lilac-500/30 flex-shrink-0 bg-acai-900">
+            <img src="${flavor.img}" alt="${flavor.name}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/100x100/270a35/facc15?text=Sabor'"/>
+          </div>
+        </label>
+      `).join('');
+
+      updateGarrafinhaTotalPrice();
+
+      const modal = document.getElementById('garrafinhaModal');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modal.firstElementChild.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeGarrafinhaModal() {
+      const modal = document.getElementById('garrafinhaModal');
+      modal.classList.add('opacity-0');
+      modal.firstElementChild.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        currentGarrafinhaState = null;
+      }, 250);
+    }
+
+    function changeGarrafinhaQty(delta) {
+      if (!currentGarrafinhaState) return;
+      currentGarrafinhaState.qty = Math.max(1, currentGarrafinhaState.qty + delta);
+      document.getElementById('garrafinhaQtyDisplay').innerText = currentGarrafinhaState.qty;
+      updateGarrafinhaTotalPrice();
+    }
+
+    function updateGarrafinhaTotalPrice() {
+      if (!currentGarrafinhaState) return;
+      const total = currentGarrafinhaState.item.price * currentGarrafinhaState.qty;
+      document.getElementById('garrafinhaModalTotalPrice').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function confirmAddGarrafinha() {
+      if (!currentGarrafinhaState) return;
+
+      const notes = document.getElementById('garrafinhaNotes').value.trim();
+      cart.push({
+        id: 'cart_' + Date.now(),
+        name: currentGarrafinhaState.item.name,
+        details: `Sabor: ${currentGarrafinhaState.selectedFlavor}` + (notes ? ` | Obs: ${notes}` : ''),
+        unitPrice: currentGarrafinhaState.item.price,
+        qty: currentGarrafinhaState.qty
+      });
+
+      closeGarrafinhaModal();
+      updateCartUI();
+    }
+
+    // ----------------------------------------------------
+    // MONTE O SEU AÇAÍ MODAL LOGIC
+    // ----------------------------------------------------
+    function openMonteModal(id) {
+      const item = productsData.find(p => p.id === id);
+      if (!item) return;
+
+      currentMonteState = {
+        item: item,
+        freeLimit: item.freeLimit,
+        selectedFree: [],
+        selectedPremium: [],
+        selectedFruits: [],
+        qty: 1
+      };
+
+      document.getElementById('monteModalImg').src = item.image;
+      document.getElementById('monteModalTitle').innerText = item.name;
+      document.getElementById('monteModalSubtitle').innerText = `Escolha até ${item.freeLimit} complementos grátis inclusos!`;
+      document.getElementById('monteModalBasePrice').innerText = `R$ ${item.price.toFixed(2).replace('.', ',')}`;
+      document.getElementById('freeCounterBadge').innerText = `0 / ${item.freeLimit} selecionados`;
+      document.getElementById('monteQtyDisplay').innerText = '1';
+      document.getElementById('monteNotes').value = '';
+
+      // 1. Free List
+      document.getElementById('freeComplementsList').innerHTML = freeComplementsList.map(comp => `
+        <label class="cursor-pointer bg-acai-950 border border-lilac-500/20 p-2.5 rounded-xl flex items-center gap-2 text-xs text-purple-100 hover:border-lilac-500 transition">
+          <input type="checkbox" value="${comp}" onchange="handleFreeCheck(this)" class="free-cb accent-lilac-500 rounded">
+          <span class="truncate">${comp}</span>
+        </label>
+      `).join('');
+
+      // 2. Premium List
+      document.getElementById('premiumComplementsList').innerHTML = premiumComplementsList.map(p => `
+        <label class="cursor-pointer bg-acai-950 border border-lilac-500/20 p-2.5 rounded-xl flex items-center justify-between text-xs text-purple-100 hover:border-lilac-500 transition">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" value="${p.name}" data-price="${p.price}" onchange="updateMonteTotalPrice()" class="prem-cb accent-acaiYellow-400 rounded">
+            <span>${p.name}</span>
+          </div>
+          <span class="font-bold text-acaiYellow-400">+ R$ ${p.price.toFixed(2).replace('.', ',')}</span>
+        </label>
+      `).join('');
+
+      // 3. Fruits List
+      document.getElementById('fruitsList').innerHTML = fruitsList.map(f => `
+        <label class="cursor-pointer bg-acai-950 border border-lilac-500/20 p-2.5 rounded-xl flex items-center justify-between text-xs text-purple-100 hover:border-lilac-500 transition">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" value="${f.name}" data-price="${f.price}" onchange="updateMonteTotalPrice()" class="fruit-cb accent-red-400 rounded">
+            <span>${f.name}</span>
+          </div>
+          <span class="font-bold text-acaiYellow-400">${f.price > 0 ? '+ R$ ' + f.price.toFixed(2).replace('.', ',') : 'Grátis'}</span>
+        </label>
+      `).join('');
+
+      updateMonteTotalPrice();
+
+      const modal = document.getElementById('monteModal');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        modal.firstElementChild.classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeMonteModal() {
+      const modal = document.getElementById('monteModal');
+      modal.classList.add('opacity-0');
+      modal.firstElementChild.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        currentMonteState = null;
+      }, 250);
+    }
+
+    function handleFreeCheck(checkbox) {
+      if (!currentMonteState) return;
+      const checked = Array.from(document.querySelectorAll('.free-cb:checked'));
+
+      if (checked.length > currentMonteState.freeLimit) {
+        checkbox.checked = false;
+        alert(`Você pode escolher no máximo ${currentMonteState.freeLimit} adicionais grátis para este tamanho.`);
+        return;
+      }
+
+      document.getElementById('freeCounterBadge').innerText = `${checked.length} / ${currentMonteState.freeLimit} selecionados`;
+    }
+
+    function changeMonteQty(delta) {
+      if (!currentMonteState) return;
+      currentMonteState.qty = Math.max(1, currentMonteState.qty + delta);
+      document.getElementById('monteQtyDisplay').innerText = currentMonteState.qty;
+      updateMonteTotalPrice();
+    }
+
+    function updateMonteTotalPrice() {
+      if (!currentMonteState) return;
+
+      let unitPrice = currentMonteState.item.price;
+
+      document.querySelectorAll('.prem-cb:checked').forEach(cb => {
+        unitPrice += parseFloat(cb.getAttribute('data-price'));
+      });
+      document.querySelectorAll('.fruit-cb:checked').forEach(cb => {
+        unitPrice += parseFloat(cb.getAttribute('data-price'));
+      });
+
+      const total = unitPrice * currentMonteState.qty;
+      document.getElementById('monteModalTotalPrice').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+    }
+
+    function confirmAddMonteAcai() {
+      if (!currentMonteState) return;
+
+      const gratis = Array.from(document.querySelectorAll('.free-cb:checked')).map(c => c.value);
+      const premium = Array.from(document.querySelectorAll('.prem-cb:checked')).map(c => c.value);
+      const frutas = Array.from(document.querySelectorAll('.fruit-cb:checked')).map(c => c.value);
+      const notes = document.getElementById('monteNotes').value.trim();
+
+      let unitPrice = currentMonteState.item.price;
+      document.querySelectorAll('.prem-cb:checked').forEach(cb => { unitPrice += parseFloat(cb.getAttribute('data-price')); });
+      document.querySelectorAll('.fruit-cb:checked').forEach(cb => { unitPrice += parseFloat(cb.getAttribute('data-price')); });
+
+      const detailsParts = [];
+      if (gratis.length) detailsParts.push(`Grátis: ${gratis.join(', ')}`);
+      if (premium.length) detailsParts.push(`Premium: ${premium.join(', ')}`);
+      if (frutas.length) detailsParts.push(`Frutas: ${frutas.join(', ')}`);
+      if (notes) detailsParts.push(`Obs: ${notes}`);
+
+      cart.push({
+        id: 'cart_' + Date.now(),
+        name: currentMonteState.item.name,
+        details: detailsParts.join(' | ') || 'Sem complementos',
+        unitPrice: unitPrice,
+        qty: currentMonteState.qty
+      });
+
+      closeMonteModal();
+      updateCartUI();
+    }
+
+    // DIRECT ADD (BARCAS & POTES)
+    function directAddToCart(id) {
+      const item = productsData.find(p => p.id === id);
+      if (!item) return;
+
+      cart.push({
+        id: 'cart_' + Date.now(),
+        name: item.name,
+        details: item.desc,
+        unitPrice: item.price,
+        qty: 1
+      });
+
+      updateCartUI();
+      toggleCartDrawer();
+    }
+
+    // ----------------------------------------------------
+    // CART & DRAWER MANAGEMENT
+    // ----------------------------------------------------
+    function updateCartUI() {
+      const totalCount = cart.reduce((acc, item) => acc + item.qty, 0);
+      const totalPrice = cart.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0);
+
+      // Header button updates
+      document.getElementById('cartHeaderBadge').innerText = totalCount;
+      document.getElementById('cartHeaderTotal').innerText = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+
+      // Drawer updates
+      document.getElementById('drawerItemCount').innerText = `${totalCount} item(ns) selecionado(s)`;
+      document.getElementById('drawerSubtotal').innerText = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+      document.getElementById('drawerTotal').innerText = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+
+      const listContainer = document.getElementById('cartDrawerList');
+      if (cart.length === 0) {
+        listContainer.innerHTML = `
+          <div class="text-center py-12 text-gray-400">
+            <i class="fa-solid fa-bag-shopping text-4xl text-acai-700 mb-2"></i>
+            <p class="text-sm">Seu carrinho está vazio.</p>
+            <p class="text-xs text-lilac-300 mt-1">Adicione açaí ou garrafinhas saborosas!</p>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = cart.map((item, idx) => `
+        <div class="bg-acai-950 p-3.5 rounded-2xl border border-lilac-500/20 flex items-start justify-between gap-3">
+          <div class="flex-1">
+            <h5 class="font-bold text-sm text-white">${item.name}</h5>
+            <p class="text-[11px] text-lilac-300 mt-0.5 leading-relaxed">${item.details}</p>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-xs font-black text-acaiYellow-400">
+                ${item.qty}x R$ ${item.unitPrice.toFixed(2).replace('.', ',')}
+              </span>
+              <span class="text-[10px] text-gray-400">
+                (R$ ${(item.unitPrice * item.qty).toFixed(2).replace('.', ',')})
+              </span>
+            </div>
+          </div>
+          <button onclick="removeFromCart(${idx})" class="w-8 h-8 rounded-xl bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white flex items-center justify-center transition">
+            <i class="fa-solid fa-trash-can text-xs"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function toggleCartDrawer() {
+      const drawer = document.getElementById('cartDrawer');
+      const content = document.getElementById('cartDrawerContent');
+
+      if (drawer.classList.contains('hidden')) {
+        drawer.classList.remove('hidden');
+        setTimeout(() => {
+          drawer.classList.remove('opacity-0');
+          content.classList.remove('translate-x-full');
+        }, 10);
+      } else {
+        drawer.classList.add('opacity-0');
+        content.classList.add('translate-x-full');
+        setTimeout(() => {
+          drawer.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    // ----------------------------------------------------
+    // WHATSAPP ORDER DISPATCHER
+    // ----------------------------------------------------
+    function sendWhatsAppOrder() {
+      if (cart.length === 0) {
+        alert('Adicione pelo menos um item ao seu carrinho!');
+        return;
+      }
+
+      const name = document.getElementById('custName').value.trim();
+      const address = document.getElementById('custAddress').value.trim();
+      const payment = document.getElementById('custPayment').value;
+
+      if (!name || !address) {
+        alert('Por favor, informe seu nome completo e o endereço para entrega.');
+        return;
+      }
+
+      let msg = `*NOVO PEDIDO - SACODE AÇAÍ* 🍧\n\n`;
+      msg += `👤 *Cliente:* ${name}\n`;
+      msg += `📍 *Endereço:* ${address}\n`;
+      msg += `💳 *Pagamento:* ${payment}\n\n`;
+      msg += `📋 *ITENS DO PEDIDO:*\n`;
+
+      cart.forEach((item, i) => {
+        msg += `\n*${i + 1}. ${item.name}* (x${item.qty})\n`;
+        msg += `   ${item.details}\n`;
+        msg += `   Valor: R$ ${(item.unitPrice * item.qty).toFixed(2).replace('.', ',')}\n`;
+      });
+
+      const total = cart.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0);
+      msg += `\n💰 *VALOR TOTAL: R$ ${total.toFixed(2).replace('.', ',')}*\n\n`;
+      msg += `Obrigado por pedir na Sacode Açaí! Aguardo a confirmação.`;
+
+      const phone = '5517992051129';
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
